@@ -15,7 +15,7 @@ async function main() {
 
     console.log('Wallet Address:', walletAddress)
     
-    // To create a signer secret.js client
+    // Create a signing secret.js client
     const secretjs = new SecretNetworkClient({
       url: node_url,
       chainId: chain_id,
@@ -53,7 +53,7 @@ async function main() {
     const contractCodeHash = (await secretjs.query.compute.codeHashByCodeId({code_id: codeId})).code_hash;
     console.log(`Contract hash: ${contractCodeHash}`);
 
-    // Create an instance of the Counter contract, providing a starting count
+    // SNIP721 Init Message, contains contract info and config
     const initMsg = {
         // name of token contract
         name: 'My NFT Collection',
@@ -61,10 +61,10 @@ async function main() {
         // token contract symbol
         symbol: 'MYNFT',
 
-        // optional admin address, env.message.sender if missing
+        // optional admin address, message sender if missing
         admin: walletAddress,
 
-        // randomness used as entropy for prng seed
+        // randomness used as entropy for prng seed, should be base64 encoded
         entropy: Buffer.from(secureRandom(32, { type: "Uint8Array" })).toString("base64"),
 
         // For details see: https://github.com/baedrik/snip721-reference-impl#instantiating-the-token-contract
